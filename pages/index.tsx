@@ -25,7 +25,7 @@ export default function Home({ data }: any) {
 }
 
 export async function getServerSideProps(context: any) {
-  const x = await axios.post("http://localhost:3000/api/postTest", {
+  const x = await axios.post("http://127.0.0.1:3000/api/postTest", {
     slug: "barricades",
   });
 
