@@ -26,7 +26,7 @@ export default function Home({ data }: any) {
 }
 
 export async function getServerSideProps(context: any) {
-  const graphQLClient = new GraphQLClient("http://localhost:1337/graphql");
+  const graphQLClient = new GraphQLClient("http://127.0.0.1:1337/graphql");
 
   const variables = {
     slug: "barricades",

@@ -23,9 +23,9 @@ export default function ServiceCards({ data }: any) {
           className={style.serviceCard}
         >
           <Image
-          height={1080}
-          width={1920}
-          className={style.serviceCardImage}
+            height={1080}
+            width={1920}
+            className={style.serviceCardImage}
             src={`http://127.0.0.1:1337${item.attributes.Images.data[0].attributes.url}`}
             alt="services image goes here"
           />
