@@ -57,9 +57,9 @@ export default function About({}) {
       <div className={styles.hero} id="img">
         <Image
           className={styles.heroimg}
-          src="/resized/pexels-kateryna-babaieva-2760241 (Large).jpg"
           height={1080}
           width={1620}
+          src="/resized/pexels-kateryna-babaieva-2760241 (Large).jpg"
           alt="hero image"
         />
       </div>

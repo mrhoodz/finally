@@ -5,6 +5,7 @@ import Land from "../../services/_land";
 import Pictures from "../../services/_pictures";
 import axios from "axios";
 import { useRouter } from "next/router";
+import { GraphQLClient, gql } from "graphql-request";
 
 export default function Index({ data }: any) {
   const router = useRouter();
@@ -73,16 +74,89 @@ export async function getServerSideProps(context: any) {
   const { params } = context;
   const slugId = params.slug;
 
-  const x = await axios.post("http://127.0.0.1:3000/api/postTest", {
+  // const x = await axios.post("http://127.0.0.1:3000/api/postTest", {
+  //   slug: slugId,
+  // });
+
+  const graphQLClient = new GraphQLClient("http://localhost:1337/graphql");
+
+  const variables = {
     slug: slugId,
-  });
+  };
+
+  const query = gql`
+    query ($slug: String!) {
+      services(filters: { slug: { eq: $slug } }) {
+        data {
+          attributes {
+            Name
+
+            Task {
+              Task
+            }
+
+            Images {
+              __typename
+              ... on UploadFileRelationResponseCollection {
+                data {
+                  attributes {
+                    url
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  `;
+
+  const queryAll = gql`
+    query {
+      services {
+        data {
+          attributes {
+            Name
+            slug
+            Images {
+              __typename
+              ... on UploadFileRelationResponseCollection {
+                data {
+                  attributes {
+                    url
+                  }
+                }
+              }
+            }
+
+            Task {
+              Task
+            }
+          }
+        }
+      }
+    }
+  `;
+
+  const data = await graphQLClient.request(query, variables);
+
+  const attributes = data.services.data;
+
+  const dataAll = await graphQLClient.request(queryAll);
+
+  const attributesAll = dataAll.services.data;
+
+  const datad = {
+    theName: attributes,
+    theNameAll: attributesAll,
+  };
 
   // const serviceResponse = await axios.get("http://localhost:3000/api/postTest");
 
   // console.log(serviceResponse)
   return {
     props: {
-      data: x.data,
+      data: datad,
     },
   };
 }

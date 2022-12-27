@@ -5,10 +5,11 @@ import Head from "next/head";
 import Prime from "../_firstpage";
 // const inter = Inter({ subsets: ["latin"] });
 import axios from "axios";
+import { GraphQLClient, gql } from "graphql-request";
 // import { GraphQLClient, gql } from "graphql-request";
 
 export default function Home({ data }: any) {
-  console.log(data)
+  // console.log("123")
   return (
 
     <>
@@ -25,18 +26,51 @@ export default function Home({ data }: any) {
 }
 
 export async function getServerSideProps(context: any) {
-  const x = await axios.post("http://127.0.0.1:3000/api/postTest", {
+  const graphQLClient = new GraphQLClient("http://localhost:1337/graphql");
+
+  const variables = {
     slug: "barricades",
-  });
+  };
+  const queryAll = gql`
+    query {
+      services {
+        data {
+          attributes {
+            Name
+            slug
+            Images {
+              __typename
+              ... on UploadFileRelationResponseCollection {
+                data {
+                  attributes {
+                    url
+                  }
+                }
+              }
+            }
 
-  // console.log("wassup my guy")
+            Task {
+              Task
+            }
+          }
+        }
+      }
+    }
+  `;
 
-  // const serviceResponse = await axios.get("http://localhost:3000/api/postTest");
 
-  // console.log(serviceResponse)
+  const dataAll = await graphQLClient.request(queryAll);
+
+  const attributesAll = dataAll.services.data;
+
+  const datad = {
+    theNameAll: attributesAll,
+  };
+
+  console.log(datad)
   return {
     props: {
-      data: x.data,
+      data: datad,
     },
   };
 }

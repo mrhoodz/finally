@@ -7,12 +7,9 @@ import React from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
 
-export default function Prime({data} : any) {
-
+export default function Prime({ data }: any) {
   const router = useRouter();
   const { slug } = router.query;
-
-
 
   // console.log(data)
   // console.log(data)
@@ -25,4 +22,3 @@ export default function Prime({data} : any) {
     </>
   );
 }
-

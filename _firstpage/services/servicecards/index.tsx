@@ -13,7 +13,7 @@ export default function ServiceCards({ data }: any) {
   // src={`http://localhost:1337${item.attributes.Images.data[ item.attributes.Images.data.length-1  ].attributes.url}`}
 
   const x = data[0].attributes.Images.data;
-  console.log(x.length - 1);
+  // console.log(x.length - 1);
   return (
     <>
       {data.map((item: any) => (
